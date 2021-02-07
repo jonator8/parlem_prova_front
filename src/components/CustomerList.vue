@@ -7,8 +7,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>Last</th>
-                    <th>Phone</th>
+                    <th>Email</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -16,8 +15,7 @@
                     @click="clickCustomer(customer)">
                     <td>{{customer.id}}</td>
                     <td>{{customer.givenName}}</td>
-                    <td>{{customer.familyName1}}</td>
-                    <td>{{customer.phone}}</td>
+                    <td>{{customer.email}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -42,13 +40,12 @@
         },
         methods: {
             clickCustomer(customer: any) {
-                axios.get("http://localhost:3000/api/v1/customersproducts/"+customer.id+"/products").then((result) => {
-                    // this.data = result.data.data;
+                axios.get("http://localhost:3000/api/v1/customers/"+customer.id+"/products").then((result) => {
                     let dataAux = {
-                        customer: customer,
+                        customer: result.data.data.customer,
                         products: []
                     };
-                    result.data.data.map(item => {
+                    result.data.data.products.map(item => {
                         const product = {
                             name: item.product.name,
                             type: item.product.type,
