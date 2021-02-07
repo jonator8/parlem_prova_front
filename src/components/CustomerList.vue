@@ -4,19 +4,19 @@
             <h3>Customers</h3>
             <table>
                 <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr v-for="customer in customers"
-                    @click="clickCustomer(customer)">
-                    <td>{{customer.id}}</td>
-                    <td>{{customer.givenName}}</td>
-                    <td>{{customer.email}}</td>
-                </tr>
+                    <tr v-for="customer in customers"
+                        @click="clickCustomer(customer)">
+                        <td>{{customer.id}}</td>
+                        <td>{{customer.givenName}}</td>
+                        <td>{{customer.email}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -27,7 +27,6 @@
 <script lang="ts">
     import axios from "axios";
     import CustomerDetail from "./CustomerDetail.vue";
-
 
     export default {
         name:'CustomerList',
