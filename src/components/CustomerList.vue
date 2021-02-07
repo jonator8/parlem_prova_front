@@ -12,7 +12,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="customer in customers">
+                <tr v-for="customer in customers"
+                    @click="clickCustomer(customer)">
                     <td>{{customer.id}}</td>
                     <td>{{customer.givenName}}</td>
                     <td>{{customer.familyName1}}</td>
@@ -21,22 +22,45 @@
                 </tbody>
             </table>
         </div>
+        <CustomerDetail v-bind:data="data"></CustomerDetail>
     </div>
 </template>
 
 <script lang="ts">
     import axios from "axios";
+    import CustomerDetail from "./CustomerDetail.vue";
 
 
     export default {
         name:'CustomerList',
-
+        components: {CustomerDetail},
         data () {
             return {
-                customers: null
+                customers: null,
+                data: null
             }
         },
-
+        methods: {
+            clickCustomer(customer: any) {
+                axios.get("http://localhost:3000/api/v1/customersproducts/"+customer.id+"/products").then((result) => {
+                    // this.data = result.data.data;
+                    let dataAux = {
+                        customer: customer,
+                        products: []
+                    };
+                    result.data.data.map(item => {
+                        const product = {
+                            name: item.product.name,
+                            type: item.product.type,
+                            soldAt:  new Date(item.soldAt).toLocaleString(),
+                            numeracioTerminal: item.numeracioTerminal
+                        };
+                        dataAux.products.push(product);
+                    });
+                    this.data = dataAux;
+                });
+            }
+        },
         created() {
             axios.get("http://localhost:3000/api/v1/customers").then((result) => {
                 this.customers = result.data.data;
